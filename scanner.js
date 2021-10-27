@@ -165,10 +165,8 @@ module.exports.scanner = class Scanner {
       throw new Error("Unclosed string");
     }
 
-    // The closing ".
     this.advance();
 
-    // Trim the surrounding quotes.
     const value = this.source.substring(this.#start + 1, this.#current - 1);
     // console.log(value);
     this.addToken(tokenTypes.STRING, value);
@@ -181,9 +179,7 @@ module.exports.scanner = class Scanner {
   number() {
     while (this.isDigit(this.peek())) this.advance();
 
-    // Look for a fractional part.
     if (this.peek() === "." && this.isDigit(this.peekNext())) {
-      // Consume the "."
       this.advance();
 
       while (this.isDigit(this.peek())) this.advance();
