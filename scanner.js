@@ -1,6 +1,7 @@
 const keywords = require("./keywords").keywords;
 const Token = require("./token").token;
 const tokenTypes = require("./token-types").tokenTypes;
+const memory = require("./memory").memory;
 
 module.exports.scanner = class Scanner {
   source;
@@ -18,20 +19,34 @@ module.exports.scanner = class Scanner {
   }
 
   scanTokens() {
-    console.log(this.source);
-    console.log(`Source length is ${this.source.length}`);
+    //console.log(this.source);
+    //console.log(`Source length is ${this.source.length}`);
     while (!this.isAtEnd()) {
+      // console.log(this.source.split(' '))
       this.#start = this.#current;
       this.scanToken();
     }
     this.tokens.push(new Token(tokenTypes.EOF, "", null, this.#line));
+
+    for (let i = 0; i < this.tokens.length; i++) {
+      const token = this.tokens[i];
+      if (token.type == tokenTypes.IDENTIFIER) {
+        if (this.tokens[i + 1].type === tokenTypes.EQUAL) {
+          memory.push({
+            variable: token.lexeme,
+            valor: this.tokens[i + 2],
+            ambito: 'global',
+          });
+        }
+      }
+    }
     return this.tokens;
   }
 
   scanToken() {
     const c = this.advance();
-    console.log(`El caracter es: ${c}`);
-    console.log(`Estamos en el nodo ${this.#current}`);
+    //  console.log(`El caracter es: ${c}`);
+    //console.log(`Estamos en el nodo ${this.#current}`);
     switch (c) {
       case "(":
         this.addToken(tokenTypes.LEFT_PAREN);
@@ -155,7 +170,7 @@ module.exports.scanner = class Scanner {
 
     // Trim the surrounding quotes.
     const value = this.source.substring(this.#start + 1, this.#current - 1);
-    console.log(value);
+    // console.log(value);
     this.addToken(tokenTypes.STRING, value);
   }
 
@@ -190,7 +205,7 @@ module.exports.scanner = class Scanner {
     const text = this.source.substring(this.#start, this.#current);
     let type = keywords[text];
     if (!type) type = tokenTypes.IDENTIFIER;
-    console.log(type);
+    // console.log(type);
     this.addToken(type);
   }
 

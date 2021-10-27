@@ -1,6 +1,7 @@
 const fs = require("fs");
 const Scanner = require("./scanner");
 const arguments = process.argv.slice(2);
+const memoria = require('./memory').memory;
 
 function main(args) {
   if (args.length > 1) {
@@ -17,12 +18,13 @@ async function runFile(path) {
   run(script.toString());
 }
 
-function run(source) {
+function run(source){
   const scanner = new Scanner.scanner(source);
   const tokens = scanner.scanTokens();
-  tokens.forEach((t) => {
-    console.log(JSON.stringify(t));
-  });
+
+  console.log('TABLA TOKENS\n');
+  console.table(tokens)
+  console.log('TABLA DE SIMBOLOS\n',memoria,'\n');
 }
 
 main(arguments);

@@ -1,5 +1,5 @@
 module.exports.token = class Token {
-  tokenType;
+  type;
   lexeme;
   literal;
   line;

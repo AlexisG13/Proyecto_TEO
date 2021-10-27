@@ -1,4 +1,5 @@
 module.exports.tokenTypes = {
+  IF: 'if',
   VAR: "var",
   VAL: "val",
   CONST: "const",

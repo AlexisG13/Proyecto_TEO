@@ -1,6 +1,7 @@
 const tokenTypes = require("./token-types").tokenTypes;
 
 module.exports.keywords = {
+  public: tokenTypes.PUBLIC,
   val: tokenTypes.VAL,
   const: tokenTypes.CONST,
   static: tokenTypes.STATIC,
@@ -11,4 +12,5 @@ module.exports.keywords = {
   protected: tokenTypes.PROTECTED,
   var: tokenTypes.VAR,
   false: tokenTypes.FALSE,
+  if: tokenTypes.IF
 };
